@@ -49,13 +49,16 @@ while not cantina_found:
     except NoSuchElementException:
         try:
             # Si no se encuentra el boton de inicio de sesion para la cantina
-            button_nextpage = driver.find_element(By.XPATH, '//*[@id="root"]/div/section/div/div/div/div/div/ul/li[7]/button')
+            button_nextpage = driver.find_element(By.XPATH, '//*[@id="root"]/div/section/div/div/div/div/div/ul/li[@title="Página siguiente"]/button')
+            if not button_nextpage.is_enabled():
+                # Si esta disabled es que se llego a la ultima pagina y no se encontro la cantina
+                sys.exit('No se pudo encontrar la cantina. Checkea los datos de país y nombre de la cantina')
+
             button_nextpage.click()
             # Esperar que cargue pagina
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(1)
         except Exception:
-            # Si tiene error al clickear boton next page, se llego a la ultima pagina y no se encontro la cantina
-            sys.exit('No se pudo encontrar la cantina. Checkea los datos de país y nombre de la cantina')
+            sys.exit('Ocurrio un error')
             break
 
 hamb_button = driver.find_element(By.XPATH, '//*[@id="root"]/header/button')
@@ -80,6 +83,6 @@ with open(f"{csv_file}", 'r') as archivo_csv:
         input_descrip.send_keys(fila['descripcion'])
         input_fecha.send_keys(fila['fecha'])
         input_precio.send_keys(fila['precio'])
-        time.sleep(2)
+        time.sleep(1)
         #guarda el menu apretando enter
         input_precio.send_keys(Keys.ENTER)
