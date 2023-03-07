@@ -1,6 +1,8 @@
 import time
 import csv
 import pwinput
+import sys
+
 
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
@@ -51,9 +53,9 @@ while not cantina_found:
             button_nextpage.click()
             # Esperar que cargue pagina
             driver.implicitly_wait(5)
-        except:
+        except Exception:
             # Si tiene error al clickear boton next page, se llego a la ultima pagina y no se encontro la cantina
-            print('No se pudo encontrar la cantina. Checkea los datos de país y nombre de la cantina')
+            sys.exit('No se pudo encontrar la cantina. Checkea los datos de país y nombre de la cantina')
             break
 
 hamb_button = driver.find_element(By.XPATH, '//*[@id="root"]/header/button')
